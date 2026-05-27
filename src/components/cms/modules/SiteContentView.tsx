@@ -216,6 +216,7 @@ function InternationalEditor({ content, onChange }: { content: Record<string, un
             { key: 'name', label: 'Nombre' },
             { key: 'eyebrow', label: 'Línea superior / Eyebrow' },
             { key: 'image', label: 'URL de la Imagen' },
+            { key: 'description', label: 'Descripción', type: 'textarea' },
           ]}
           addLabel="Agregar destino"
         />
