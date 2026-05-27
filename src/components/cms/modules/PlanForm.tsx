@@ -307,7 +307,7 @@ export default function PlanForm() {
           Volver
         </Button>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-          {isEditing ? 'Editar Plan' : 'Crear Plan'}
+          {isEditing ? `Editar Plan: ${nameValue || ''}` : 'Crear Plan'}
         </h1>
       </div>
 
@@ -491,23 +491,7 @@ export default function PlanForm() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="schedule">Horario</Label>
-                    <Input
-                      id="schedule"
-                      {...register('schedule')}
-                      placeholder="6:00 AM - 6:00 PM"
-                      className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="meetingPoint">Punto de Encuentro</Label>
-                    <Input
-                      id="meetingPoint"
-                      {...register('meetingPoint')}
-                      className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
-                    />
-                  </div>
+                  {/* Campos Omitidos (Horario y Punto de Encuentro) */}
                   {isGrupalCategory && (
                     <div className="space-y-2">
                       <Label htmlFor="maxGuests">Capacidad Máxima / Cupos</Label>
