@@ -1,0 +1,283 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// VIVE TRAVEL CMS - Database Schema
+// Adapted from Supabase spec to Prisma/PostgreSQL
+// ============================================
+
+// --- Profiles (Users) ---
+model Profile {
+  id            String        @id @default(uuid())
+  email         String        @unique
+  fullName      String?       @map("full_name")
+  avatarUrl     String?       @map("avatar_url")
+  role          String        @default("editor") // "administrador" | "editor"
+  password      String        // Hashed password for simple auth
+  createdAt     DateTime      @default(now()) @map("created_at")
+  updatedAt     DateTime      @updatedAt @map("updated_at")
+  activityLogs  ActivityLog[]
+
+  @@map("profiles")
+}
+
+// --- Activity Log ---
+model ActivityLog {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  user      Profile  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  action    String   // "create", "update", "delete", "publish", "unpublish", "duplicate"
+  entity    String   // "plan", "cabin", "testimonial", "category", "site_content", "message"
+  entityId  String?  @map("entity_id")
+  details   String?  // JSON string with extra info like entity name
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("activity_logs")
+}
+
+// --- Plan Categories ---
+model PlanCategory {
+  id        String     @id @default(uuid())
+  name      String     @unique
+  slug      String     @unique
+  color     String     @default("#0E7490")
+  icon      String?
+  sortOrder Int        @default(0) @map("sort_order")
+  createdAt DateTime   @default(now()) @map("created_at")
+  updatedAt DateTime   @updatedAt @map("updated_at")
+  plans     TourPlan[]
+
+  @@map("plan_categories")
+}
+
+// --- Tour Plans ---
+model TourPlan {
+  id              String   @id @default(uuid())
+  name            String
+  slug            String   @unique
+  shortDescription String?  @map("short_description")
+  fullDescription String?  @map("full_description")
+  price           Int      @default(0)
+  priceRange      String?  @map("price_range")
+  duration        String?
+  location        String?
+  categoryId      String?  @map("category_id")
+  category        PlanCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  difficulty      String?  // "Fácil", "Moderado", "Avanzado"
+  schedule        String?
+  meetingPoint    String?  @map("meeting_point")
+  rating          Float    @default(0)
+  reviewCount     Int      @default(0) @map("review_count")
+  maxGuests       Int?     @map("max_guests")
+  published       Boolean  @default(false)
+  sortOrder       Int      @default(0) @map("sort_order")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  images     PlanImage[]
+  includes   PlanInclude[]
+  excludes   PlanExclude[]
+  highlights PlanHighlight[]
+  testimonials Testimonial[]
+
+  @@map("tour_plans")
+}
+
+model PlanImage {
+  id          String   @id @default(uuid())
+  url         String
+  caption     String?
+  storagePath String?  @map("storage_path")
+  source      String   @default("upload") // "external" | "upload"
+  sortOrder   Int      @default(0) @map("sort_order")
+  planId      String   @map("plan_id")
+  plan        TourPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("plan_images")
+}
+
+model PlanInclude {
+  id        String   @id @default(uuid())
+  text      String
+  sortOrder Int      @default(0) @map("sort_order")
+  planId    String   @map("plan_id")
+  plan      TourPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("plan_includes")
+}
+
+model PlanExclude {
+  id        String   @id @default(uuid())
+  text      String
+  sortOrder Int      @default(0) @map("sort_order")
+  planId    String   @map("plan_id")
+  plan      TourPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("plan_excludes")
+}
+
+model PlanHighlight {
+  id        String   @id @default(uuid())
+  text      String
+  sortOrder Int      @default(0) @map("sort_order")
+  planId    String   @map("plan_id")
+  plan      TourPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("plan_highlights")
+}
+
+// --- Cabins ---
+model Cabin {
+  id               String   @id @default(uuid())
+  name             String
+  slug             String   @unique
+  shortDescription String?  @map("short_description")
+  fullDescription  String?  @map("full_description")
+  pricePerNight    Int      @default(0) @map("price_per_night")
+  priceRange       String?  @map("price_range")
+  location         String?
+  address          String?
+  capacity         Int?
+  bedrooms         Int?
+  bathrooms        Int?
+  lat              Float?
+  lng              Float?
+  checkIn          String   @default("3:00 PM") @map("check_in")
+  checkOut         String   @default("11:00 AM") @map("check_out")
+  cancellationPolicy String? @map("cancellation_policy")
+  bedroomDetails   Json?    @map("bedroom_details")
+  rating           Float    @default(0)
+  reviewCount      Int      @default(0) @map("review_count")
+  published        Boolean  @default(false)
+  sortOrder        Int      @default(0) @map("sort_order")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  images     CabinImage[]
+  amenities  CabinAmenity[]
+  highlights CabinHighlight[]
+  rules      CabinRule[]
+
+  @@map("cabins")
+}
+
+model CabinImage {
+  id          String @id @default(uuid())
+  url         String
+  caption     String?
+  storagePath String? @map("storage_path")
+  source      String @default("upload")
+  sortOrder   Int    @default(0) @map("sort_order")
+  cabinId     String @map("cabin_id")
+  cabin       Cabin  @relation(fields: [cabinId], references: [id], onDelete: Cascade)
+
+  @@map("cabin_images")
+}
+
+model CabinAmenity {
+  id        String @id @default(uuid())
+  text      String
+  sortOrder Int    @default(0) @map("sort_order")
+  cabinId   String @map("cabin_id")
+  cabin       Cabin  @relation(fields: [cabinId], references: [id], onDelete: Cascade)
+
+  @@map("cabin_amenities")
+}
+
+model CabinHighlight {
+  id        String @id @default(uuid())
+  text      String
+  sortOrder Int    @default(0) @map("sort_order")
+  cabinId   String @map("cabin_id")
+  cabin       Cabin  @relation(fields: [cabinId], references: [id], onDelete: Cascade)
+
+  @@map("cabin_highlights")
+}
+
+model CabinRule {
+  id        String @id @default(uuid())
+  text      String
+  sortOrder Int    @default(0) @map("sort_order")
+  cabinId   String @map("cabin_id")
+  cabin       Cabin  @relation(fields: [cabinId], references: [id], onDelete: Cascade)
+
+  @@map("cabin_rules")
+}
+
+// --- Testimonials ---
+model Testimonial {
+  id        String    @id @default(uuid())
+  name      String
+  avatar    String?
+  location  String?
+  text      String
+  rating    Float     @default(5)
+  tripName  String?   @map("trip_name")
+  planId    String?   @map("plan_id")
+  plan      TourPlan? @relation(fields: [planId], references: [id], onDelete: SetNull)
+  published Boolean   @default(false)
+  sortOrder Int       @default(0) @map("sort_order")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@map("testimonials")
+}
+
+// --- Contact Messages ---
+model ContactMessage {
+  id            String    @id @default(uuid())
+  name          String
+  email         String
+  phone         String?
+  subject       String?
+  message       String
+  contactMethod String?   @default("whatsapp") @map("contact_method")
+  isRead        Boolean   @default(false) @map("is_read")
+  replyMessage  String?   @map("reply_message")
+  repliedAt     DateTime? @map("replied_at")
+  createdAt     DateTime  @default(now()) @map("created_at")
+
+  @@map("contact_messages")
+}
+
+// --- Hero Images ---
+model HeroImage {
+  id          String   @id @default(uuid())
+  url         String
+  caption     String?
+  storagePath String?  @map("storage_path")
+  source      String   @default("upload")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("hero_images")
+}
+
+// --- Trip Images ---
+model TripImage {
+  id          String   @id @default(uuid())
+  url         String
+  caption     String?
+  storagePath String?  @map("storage_path")
+  source      String   @default("upload")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("trip_images")
+}
+
+// --- Site Content (JSONB sections) ---
+model SiteContent {
+  id         String   @id @default(uuid())
+  sectionKey String   @unique @map("section_key")
+  content    Json
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  @@map("site_content")
+}

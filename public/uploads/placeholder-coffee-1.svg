@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="coffeeSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#7c2d12"/>
+      <stop offset="30%" stop-color="#a16207"/>
+      <stop offset="60%" stop-color="#65a30d"/>
+      <stop offset="100%" stop-color="#15803d"/>
+    </linearGradient>
+    <linearGradient id="hill1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#22c55e"/>
+      <stop offset="100%" stop-color="#166534"/>
+    </linearGradient>
+    <linearGradient id="hill2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4ade80"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="400" fill="url(#coffeeSky)"/>
+  <!-- Sun glow -->
+  <circle cx="650" cy="80" r="60" fill="#fde68a" opacity="0.3"/>
+  <circle cx="650" cy="80" r="40" fill="#fef3c7" opacity="0.4"/>
+  <!-- Far hills -->
+  <path d="M0 250 Q200 180 400 230 Q600 280 800 220 L800 400 L0 400Z" fill="#15803d" opacity="0.6"/>
+  <!-- Coffee rows - rolling hills -->
+  <path d="M0 280 Q100 260 200 280 Q300 300 400 280 Q500 260 600 280 Q700 300 800 280 L800 400 L0 400Z" fill="url(#hill2)" opacity="0.8"/>
+  <path d="M0 310 Q100 295 200 310 Q300 325 400 310 Q500 295 600 310 Q700 325 800 310 L800 400 L0 400Z" fill="url(#hill1)" opacity="0.8"/>
+  <path d="M0 340 Q100 330 200 340 Q300 350 400 340 Q500 330 600 340 Q700 350 800 340 L800 400 L0 400Z" fill="#166534" opacity="0.7"/>
+  <!-- Coffee plants (small bush shapes) -->
+  <circle cx="80" cy="295" r="10" fill="#15803d" opacity="0.6"/>
+  <circle cx="120" cy="290" r="8" fill="#16a34a" opacity="0.5"/>
+  <circle cx="200" cy="300" r="10" fill="#15803d" opacity="0.6"/>
+  <circle cx="300" cy="295" r="9" fill="#16a34a" opacity="0.5"/>
+  <circle cx="380" cy="300" r="10" fill="#15803d" opacity="0.6"/>
+  <circle cx="500" cy="290" r="8" fill="#16a34a" opacity="0.5"/>
+  <circle cx="580" cy="295" r="10" fill="#15803d" opacity="0.6"/>
+  <circle cx="680" cy="300" r="9" fill="#16a34a" opacity="0.5"/>
+  <!-- Coffee cherries (red dots) -->
+  <circle cx="82" cy="293" r="3" fill="#dc2626" opacity="0.6"/>
+  <circle cx="78" cy="297" r="2" fill="#ef4444" opacity="0.5"/>
+  <circle cx="202" cy="298" r="3" fill="#dc2626" opacity="0.6"/>
+  <circle cx="382" cy="298" r="3" fill="#dc2626" opacity="0.6"/>
+  <circle cx="582" cy="293" r="3" fill="#dc2626" opacity="0.6"/>
+  <!-- Farmhouse -->
+  <rect x="560" y="240" width="50" height="35" fill="#92400e" opacity="0.6"/>
+  <polygon points="555,240 585,215 615,240" fill="#78350f" opacity="0.6"/>
+  <rect x="575" y="255" width="15" height="20" fill="#fbbf24" opacity="0.3"/>
+  <!-- Palm trees -->
+  <rect x="690" y="230" width="6" height="60" fill="#78350f" opacity="0.5"/>
+  <path d="M693 240 Q670 225 660 235 Q675 228 690 238Z" fill="#16a34a" opacity="0.5"/>
+  <path d="M693 240 Q716 222 726 232 Q712 225 695 238Z" fill="#22c55e" opacity="0.5"/>
+  <!-- Label -->
+  <rect x="200" y="155" width="400" height="55" rx="10" fill="rgba(0,0,0,0.4)"/>
+  <text x="400" y="190" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="white" letter-spacing="2">EJE CAFETERO</text>
+</svg>

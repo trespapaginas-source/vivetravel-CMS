@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="lakeSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0c4a6e"/>
+      <stop offset="40%" stop-color="#0284c7"/>
+      <stop offset="70%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0891b2"/>
+    </linearGradient>
+    <linearGradient id="lakeWater" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="50%" stop-color="#0e7490"/>
+      <stop offset="100%" stop-color="#164e63"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="400" fill="url(#lakeSky)"/>
+  <!-- Mountains in background -->
+  <polygon points="0,220 150,120 300,220" fill="#0f4c3a" opacity="0.6"/>
+  <polygon points="200,220 380,100 560,220" fill="#0d3f30" opacity="0.6"/>
+  <polygon points="450,220 620,130 800,220" fill="#0f4c3a" opacity="0.6"/>
+  <!-- Snow on mountains -->
+  <polygon points="380,100 360,135 400,135" fill="white" opacity="0.5"/>
+  <polygon points="150,120 135,148 165,148" fill="white" opacity="0.4"/>
+  <!-- Clouds -->
+  <ellipse cx="200" cy="60" rx="60" ry="20" fill="white" opacity="0.3"/>
+  <ellipse cx="230" cy="55" rx="40" ry="14" fill="white" opacity="0.25"/>
+  <ellipse cx="550" cy="45" rx="50" ry="18" fill="white" opacity="0.25"/>
+  <!-- Trees on shore -->
+  <polygon points="50,220 60,170 70,220" fill="#15803d" opacity="0.7"/>
+  <polygon points="90,220 100,165 110,220" fill="#166534" opacity="0.6"/>
+  <polygon points="130,220 140,175 150,220" fill="#15803d" opacity="0.7"/>
+  <polygon points="680,220 690,170 700,220" fill="#166534" opacity="0.6"/>
+  <polygon points="720,220 730,165 740,220" fill="#15803d" opacity="0.7"/>
+  <polygon points="760,220 770,175 780,220" fill="#166534" opacity="0.6"/>
+  <!-- Shore line -->
+  <path d="M0 220 Q200 215 400 220 Q600 225 800 220" fill="none" stroke="#0e7490" stroke-width="2" opacity="0.4"/>
+  <!-- Lake water -->
+  <rect x="0" y="220" width="800" height="180" fill="url(#lakeWater)" opacity="0.8"/>
+  <!-- Water reflections -->
+  <line x1="200" y1="250" x2="260" y2="250" stroke="white" stroke-width="1" opacity="0.15"/>
+  <line x1="350" y1="270" x2="420" y2="270" stroke="white" stroke-width="1" opacity="0.12"/>
+  <line x1="500" y1="290" x2="580" y2="290" stroke="white" stroke-width="1" opacity="0.1"/>
+  <line x1="150" y1="310" x2="230" y2="310" stroke="white" stroke-width="1" opacity="0.08"/>
+  <line x1="400" y1="330" x2="490" y2="330" stroke="white" stroke-width="1" opacity="0.06"/>
+  <line x1="600" y1="260" x2="650" y2="260" stroke="white" stroke-width="1" opacity="0.12"/>
+  <!-- Small boat -->
+  <path d="M550 280 Q565 270 580 280 L575 290 Q565 295 555 290Z" fill="#78350f" opacity="0.5"/>
+  <line x1="565" y1="270" x2="565" y2="255" stroke="#78350f" stroke-width="2" opacity="0.4"/>
+  <polygon points="565,258 565,272 575,268" fill="#f5f5f4" opacity="0.3"/>
+  <!-- Label -->
+  <rect x="200" y="155" width="400" height="55" rx="10" fill="rgba(0,0,0,0.4)"/>
+  <text x="400" y="190" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="white" letter-spacing="2">CABAÑA DEL LAGO</text>
+</svg>

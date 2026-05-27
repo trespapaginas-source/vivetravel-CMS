@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="40%" stop-color="#fb923c"/>
+      <stop offset="70%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#06b6d4"/>
+    </linearGradient>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+  </defs>
+  <!-- Sky -->
+  <rect width="800" height="400" fill="url(#sky)"/>
+  <!-- Sun -->
+  <circle cx="650" cy="100" r="50" fill="#fef3c7" opacity="0.9"/>
+  <circle cx="650" cy="100" r="40" fill="#fde68a" opacity="0.8"/>
+  <!-- Clouds -->
+  <ellipse cx="150" cy="70" rx="60" ry="20" fill="white" opacity="0.4"/>
+  <ellipse cx="180" cy="65" rx="40" ry="15" fill="white" opacity="0.3"/>
+  <ellipse cx="450" cy="50" rx="50" ry="18" fill="white" opacity="0.3"/>
+  <!-- Sea -->
+  <path d="M0 250 Q100 230 200 250 Q300 270 400 250 Q500 230 600 250 Q700 270 800 250 L800 400 L0 400Z" fill="url(#sea)" opacity="0.7"/>
+  <!-- Waves -->
+  <path d="M0 270 Q100 255 200 270 Q300 285 400 270 Q500 255 600 270 Q700 285 800 270 L800 400 L0 400Z" fill="#0891b2" opacity="0.5"/>
+  <path d="M0 300 Q100 288 200 300 Q300 312 400 300 Q500 288 600 300 Q700 312 800 300 L800 400 L0 400Z" fill="#0e7490" opacity="0.4"/>
+  <!-- Beach sand -->
+  <path d="M0 340 Q200 325 400 340 Q600 355 800 340 L800 400 L0 400Z" fill="#fbbf24" opacity="0.5"/>
+  <!-- Palm tree -->
+  <rect x="120" y="160" width="8" height="120" rx="3" fill="#78350f" opacity="0.7"/>
+  <path d="M124 170 Q80 140 50 155 Q80 145 110 160Z" fill="#15803d" opacity="0.8"/>
+  <path d="M124 170 Q170 135 200 150 Q170 140 130 160Z" fill="#16a34a" opacity="0.8"/>
+  <path d="M124 175 Q70 155 40 170 Q75 158 115 172Z" fill="#166534" opacity="0.7"/>
+  <path d="M124 175 Q180 150 210 165 Q175 155 130 172Z" fill="#15803d" opacity="0.7"/>
+  <!-- Label -->
+  <rect x="250" y="155" width="300" height="55" rx="10" fill="rgba(0,0,0,0.35)"/>
+  <text x="400" y="190" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="white" letter-spacing="2">PLAYA</text>
+</svg>

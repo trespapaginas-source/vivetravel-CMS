@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="forestSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a2e1a"/>
+      <stop offset="40%" stop-color="#2d4a2d"/>
+      <stop offset="70%" stop-color="#3f6b3f"/>
+      <stop offset="100%" stop-color="#1a3a1a"/>
+    </linearGradient>
+    <linearGradient id="cabin" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#92400e"/>
+      <stop offset="100%" stop-color="#78350f"/>
+    </linearGradient>
+  </defs>
+  <!-- Forest sky -->
+  <rect width="800" height="400" fill="url(#forestSky)"/>
+  <!-- Moon -->
+  <circle cx="650" cy="70" r="35" fill="#fef9c3" opacity="0.7"/>
+  <circle cx="665" cy="60" r="30" fill="url(#forestSky)" opacity="0.8"/>
+  <!-- Stars -->
+  <circle cx="100" cy="40" r="2" fill="white" opacity="0.5"/>
+  <circle cx="250" cy="30" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="400" cy="50" r="2" fill="white" opacity="0.5"/>
+  <circle cx="500" cy="25" r="1.5" fill="white" opacity="0.4"/>
+  <circle cx="550" cy="60" r="1" fill="white" opacity="0.3"/>
+  <circle cx="750" cy="40" r="2" fill="white" opacity="0.5"/>
+  <circle cx="350" cy="20" r="1" fill="white" opacity="0.3"/>
+  <!-- Far trees -->
+  <polygon points="0,250 30,150 60,250" fill="#166534" opacity="0.5"/>
+  <polygon points="50,250 85,140 120,250" fill="#14532d" opacity="0.5"/>
+  <polygon points="100,250 140,155 180,250" fill="#166534" opacity="0.5"/>
+  <polygon points="200,250 235,145 270,250" fill="#14532d" opacity="0.5"/>
+  <polygon points="550,250 585,140 620,250" fill="#166534" opacity="0.5"/>
+  <polygon points="620,250 660,150 700,250" fill="#14532d" opacity="0.5"/>
+  <polygon points="700,250 740,155 780,250" fill="#166534" opacity="0.5"/>
+  <!-- Ground -->
+  <path d="M0 300 Q200 280 400 300 Q600 320 800 300 L800 400 L0 400Z" fill="#1a3a1a" opacity="0.8"/>
+  <!-- Cabin body -->
+  <rect x="300" y="230" width="200" height="100" fill="url(#cabin)" opacity="0.9"/>
+  <!-- Cabin roof -->
+  <polygon points="280,230 400,170 520,230" fill="#451a03" opacity="0.9"/>
+  <!-- Cabin door -->
+  <rect x="375" y="280" width="50" height="50" fill="#451a03" opacity="0.8"/>
+  <circle cx="418" cy="308" r="3" fill="#fbbf24" opacity="0.5"/>
+  <!-- Cabin windows with warm light -->
+  <rect x="315" y="255" width="35" height="30" fill="#fef3c7" opacity="0.7"/>
+  <line x1="332" y1="255" x2="332" y2="285" stroke="#92400e" stroke-width="2" opacity="0.5"/>
+  <line x1="315" y1="270" x2="350" y2="270" stroke="#92400e" stroke-width="2" opacity="0.5"/>
+  <rect x="450" y="255" width="35" height="30" fill="#fef3c7" opacity="0.7"/>
+  <line x1="467" y1="255" x2="467" y2="285" stroke="#92400e" stroke-width="2" opacity="0.5"/>
+  <line x1="450" y1="270" x2="485" y2="270" stroke="#92400e" stroke-width="2" opacity="0.5"/>
+  <!-- Chimney -->
+  <rect x="440" y="175" width="20" height="40" fill="#451a03" opacity="0.8"/>
+  <!-- Smoke -->
+  <path d="M450 175 Q445 160 452 145 Q448 130 455 115" stroke="white" stroke-width="2" fill="none" opacity="0.2"/>
+  <path d="M452 145 Q458 130 453 115 Q458 100 454 85" stroke="white" stroke-width="1.5" fill="none" opacity="0.15"/>
+  <!-- Near trees -->
+  <rect x="140" y="260" width="10" height="50" fill="#451a03" opacity="0.6"/>
+  <polygon points="120,265 145,190 170,265" fill="#166534" opacity="0.7"/>
+  <polygon points="125,245 145,205 165,245" fill="#15803d" opacity="0.6"/>
+  <rect x="640" y="260" width="10" height="50" fill="#451a03" opacity="0.6"/>
+  <polygon points="620,265 645,195 670,265" fill="#166534" opacity="0.7"/>
+  <polygon points="625,245 645,210 665,245" fill="#15803d" opacity="0.6"/>
+  <!-- Label -->
+  <rect x="175" y="80" width="450" height="55" rx="10" fill="rgba(0,0,0,0.45)"/>
+  <text x="400" y="115" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="white" letter-spacing="2">CABAÑA DEL BOSQUE</text>
+</svg>
