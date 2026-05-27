@@ -67,6 +67,8 @@ model TourPlan {
   priceRange      String?  @map("price_range")
   duration        String?
   location        String?
+  city            String?
+  subLocation     String?  @map("sub_location")
   categoryId      String?  @map("category_id")
   category        PlanCategory? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   difficulty      String?  // "Fácil", "Moderado", "Avanzado"
@@ -142,6 +144,8 @@ model Cabin {
   pricePerNight    Int      @default(0) @map("price_per_night")
   priceRange       String?  @map("price_range")
   location         String?
+  city             String?
+  subLocation      String?  @map("sub_location")
   address          String?
   capacity         Int?
   bedrooms         Int?

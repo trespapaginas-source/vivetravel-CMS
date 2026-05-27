@@ -27,6 +27,8 @@ interface CabinData {
   pricePerNight: number
   priceRange: string | null
   location: string | null
+  city: string | null
+  subLocation: string | null
   address: string | null
   capacity: number | null
   bedrooms: number | null
@@ -70,7 +72,8 @@ export default function CabinForm() {
   const [fullDescription, setFullDescription] = useState('')
   const [pricePerNight, setPricePerNight] = useState(0)
   const [priceRange, setPriceRange] = useState('')
-  const [location, setLocation] = useState('')
+  const [city, setCity] = useState('')
+  const [subLocation, setSubLocation] = useState('')
   const [address, setAddress] = useState('')
   const [capacity, setCapacity] = useState('')
   const [bedrooms, setBedrooms] = useState('')
@@ -103,7 +106,17 @@ export default function CabinForm() {
         setFullDescription(cabin.fullDescription || '')
         setPricePerNight(cabin.pricePerNight)
         setPriceRange(cabin.priceRange || '')
-        setLocation(cabin.location || '')
+        let parsedCity = (cabin as any).city || ''
+        let parsedSubLocation = (cabin as any).subLocation || ''
+        if (!parsedCity && cabin.location) {
+          const parts = cabin.location.split(',')
+          parsedCity = parts[0].trim()
+          if (parts.length > 1) {
+            parsedSubLocation = parts.slice(1).join(',').trim()
+          }
+        }
+        setCity(parsedCity)
+        setSubLocation(parsedSubLocation)
         setAddress(cabin.address || '')
         setCapacity(cabin.capacity?.toString() || '')
         setBedrooms(cabin.bedrooms?.toString() || '')
@@ -119,7 +132,7 @@ export default function CabinForm() {
           id: img.id, url: img.url, caption: img.caption, source: img.source, sortOrder: img.sortOrder,
         })))
         const rawRooms = (cabin as any).bedroomDetails
-        let roomsList = []
+        let roomsList: { id: string; title: string; beds: string; image: string; order: number; active: boolean }[] = []
         if (Array.isArray(rawRooms) && rawRooms.length > 0) {
           roomsList = rawRooms.map((r: any, idx: number) => ({
             id: r.id || `room-${idx}`,
@@ -192,7 +205,9 @@ export default function CabinForm() {
         fullDescription: fullDescription || null,
         pricePerNight,
         priceRange: priceRange || null,
-        location: location || null,
+        location: city ? (subLocation ? `${city.trim()}, ${subLocation.trim()}` : city.trim()) : null,
+        city: city?.trim() || null,
+        subLocation: subLocation?.trim() || null,
         address: address || null,
         capacity: capacity ? parseInt(capacity) : null,
         bedrooms: bedrooms ? parseInt(bedrooms) : null,
@@ -366,8 +381,34 @@ export default function CabinForm() {
                     <Input id="priceRange" value={priceRange} onChange={(e) => setPriceRange(e.target.value)} className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200" />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="location">Ubicación</Label>
-                    <Input id="location" value={location} onChange={(e) => setLocation(e.target.value)} className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200" />
+                    <Label htmlFor="city">Ciudad Principal *</Label>
+                    <Input
+                      id="city"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      list="cities-list"
+                      placeholder="Ej: Cartagena, Santa Marta"
+                      className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
+                    />
+                    <datalist id="cities-list">
+                      <option value="Cartagena" />
+                      <option value="Santa Marta" />
+                      <option value="Barranquilla" />
+                      <option value="San Andrés" />
+                      <option value="San Gil" />
+                      <option value="Punta Cana" />
+                      <option value="Luruaco" />
+                    </datalist>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subLocation">Sububicación (Opcional)</Label>
+                    <Input
+                      id="subLocation"
+                      value={subLocation}
+                      onChange={(e) => setSubLocation(e.target.value)}
+                      placeholder="Ej: Barú, Taganga, Puerto Colombia"
+                      className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
+                    />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="address">Dirección</Label>

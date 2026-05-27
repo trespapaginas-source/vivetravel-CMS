@@ -35,10 +35,12 @@ const planSchema = z.object({
     .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, 'El slug solo puede contener letras minúsculas, números y guiones'),
   shortDescription: z.string().optional().default(''),
   fullDescription: z.string().optional().default(''),
-  price: z.number({ invalid_type_error: 'El precio debe ser un número' }).min(0, 'El precio no puede ser negativo'),
+  price: z.number().min(0, 'El precio no puede ser negativo'),
   priceRange: z.string().optional().default(''),
   duration: z.string().optional().default(''),
   location: z.string().optional().default(''),
+  city: z.string().optional().default(''),
+  subLocation: z.string().optional().default(''),
   categoryId: z.string().optional().default(''),
   difficulty: z.string().optional().default(''),
   schedule: z.string().optional().default(''),
@@ -51,7 +53,7 @@ const planSchema = z.object({
   sortOrder: z.number().optional().default(0),
 })
 
-type PlanFormValues = z.infer<typeof planSchema>
+type PlanFormValues = z.input<typeof planSchema>
 
 interface PlanCategory {
   id: string
@@ -125,6 +127,8 @@ export default function PlanForm() {
       priceRange: '',
       duration: '',
       location: '',
+      city: '',
+      subLocation: '',
       categoryId: '',
       difficulty: '',
       schedule: '',
@@ -140,6 +144,8 @@ export default function PlanForm() {
   const publishedValue = watch('published')
   const categoryIdValue = watch('categoryId')
   const difficultyValue = watch('difficulty')
+  const selectedCategory = categories.find((cat) => cat.id === categoryIdValue)
+  const isGrupalCategory = selectedCategory?.name?.toLowerCase() === 'grupal'
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -172,6 +178,17 @@ export default function PlanForm() {
         setValue('priceRange', plan.priceRange || '')
         setValue('duration', plan.duration || '')
         setValue('location', plan.location || '')
+        let parsedCity = (plan as any).city || ''
+        let parsedSubLocation = (plan as any).subLocation || ''
+        if (!parsedCity && plan.location) {
+          const parts = plan.location.split(',')
+          parsedCity = parts[0].trim()
+          if (parts.length > 1) {
+            parsedSubLocation = parts.slice(1).join(',').trim()
+          }
+        }
+        setValue('city', parsedCity)
+        setValue('subLocation', parsedSubLocation)
         setValue('categoryId', plan.categoryId || '')
         setValue('difficulty', plan.difficulty || '')
         setValue('schedule', plan.schedule || '')
@@ -223,12 +240,14 @@ export default function PlanForm() {
         price: data.price,
         priceRange: data.priceRange || null,
         duration: data.duration || null,
-        location: data.location || null,
+        location: data.city ? (data.subLocation ? `${data.city.trim()}, ${data.subLocation.trim()}` : data.city.trim()) : null,
+        city: data.city?.trim() || null,
+        subLocation: data.subLocation?.trim() || null,
         categoryId: data.categoryId || null,
         difficulty: data.difficulty || null,
         schedule: data.schedule || null,
         meetingPoint: data.meetingPoint || null,
-        maxGuests: data.maxGuests ?? null,
+        maxGuests: isGrupalCategory ? (data.maxGuests ?? null) : null,
         published: data.published,
         sortOrder: data.sortOrder,
         images: images.map((img, i) => ({
@@ -419,10 +438,30 @@ export default function PlanForm() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="location">Ubicación</Label>
+                    <Label htmlFor="city">Ciudad Principal *</Label>
                     <Input
-                      id="location"
-                      {...register('location')}
+                      id="city"
+                      {...register('city')}
+                      list="cities-list"
+                      placeholder="Ej: Cartagena, Santa Marta"
+                      className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
+                    />
+                    <datalist id="cities-list">
+                      <option value="Cartagena" />
+                      <option value="Santa Marta" />
+                      <option value="Barranquilla" />
+                      <option value="San Andrés" />
+                      <option value="San Gil" />
+                      <option value="Punta Cana" />
+                      <option value="Luruaco" />
+                    </datalist>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="subLocation">Sububicación (Opcional)</Label>
+                    <Input
+                      id="subLocation"
+                      {...register('subLocation')}
+                      placeholder="Ej: Barú, Taganga, Puerto Colombia"
                       className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
                     />
                   </div>
@@ -469,18 +508,21 @@ export default function PlanForm() {
                       className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
                     />
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="maxGuests">Máximo de Huéspedes</Label>
-                    <Input
-                      id="maxGuests"
-                      type="number"
-                      {...register('maxGuests', { valueAsNumber: true })}
-                      className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
-                    />
-                    {errors.maxGuests && (
-                      <p className="text-xs text-destructive">{errors.maxGuests.message}</p>
-                    )}
-                  </div>
+                  {isGrupalCategory && (
+                    <div className="space-y-2">
+                      <Label htmlFor="maxGuests">Capacidad Máxima / Cupos</Label>
+                      <Input
+                        id="maxGuests"
+                        type="number"
+                        {...register('maxGuests', { valueAsNumber: true })}
+                        className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
+                        placeholder="Ej: 30"
+                      />
+                      {errors.maxGuests && (
+                        <p className="text-xs text-destructive">{errors.maxGuests.message}</p>
+                      )}
+                    </div>
+                  )}
                   <div className="space-y-2">
                     <Label htmlFor="sortOrder">Orden</Label>
                     <Input

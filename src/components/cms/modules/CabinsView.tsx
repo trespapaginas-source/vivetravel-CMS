@@ -726,7 +726,7 @@ export default function CabinsView() {
           </div>
 
           {/* Desktop Table View */}
-          <div className="hidden md:block rounded-lg bg-white dark:bg-slate-900 shadow-sm overflow-hidden border border-slate-200 dark:border-slate-800">
+          <div className="hidden md:block rounded-lg bg-white dark:bg-slate-900 shadow-sm overflow-x-auto border border-slate-200 dark:border-slate-800">
             <Table>
             <TableHeader>
               <TableRow className="bg-slate-50/80 dark:bg-slate-800/80">
@@ -800,10 +800,10 @@ export default function CabinsView() {
                             <HomeIcon className="h-3.5 w-3.5 text-cyan-600 dark:text-cyan-400" />
                           </div>
                         )}
-                        <span className="font-medium text-slate-900 dark:text-slate-100">{cabin.name}</span>
+                        <span className="font-medium text-slate-900 dark:text-slate-100 max-w-[240px] truncate block">{cabin.name}</span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-sm text-slate-700 dark:text-slate-300">{cabin.location || '—'}</TableCell>
+                    <TableCell className="text-sm text-slate-700 dark:text-slate-300 max-w-[180px] truncate block">{cabin.location || '—'}</TableCell>
                     <TableCell className="font-medium text-slate-900 dark:text-slate-100 text-right tabular-nums">{formatPrice(cabin.pricePerNight)}</TableCell>
                     <TableCell className="text-sm text-slate-700 dark:text-slate-300">{cabin.capacity ? `${cabin.capacity} personas` : '—'}</TableCell>
                     <TableCell>

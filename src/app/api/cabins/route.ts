@@ -38,6 +38,8 @@ export async function POST(request: Request) {
       pricePerNight,
       priceRange,
       location,
+      city,
+      subLocation,
       address,
       capacity,
       bedrooms,
@@ -76,6 +78,10 @@ export async function POST(request: Request) {
       )
     }
 
+    const finalCity = city?.trim() || null
+    const finalSubLocation = subLocation?.trim() || null
+    const finalLocation = location || (finalCity ? (finalSubLocation ? `${finalCity}, ${finalSubLocation}` : finalCity) : null)
+
     const cabin = await db.cabin.create({
       data: {
         name,
@@ -84,7 +90,9 @@ export async function POST(request: Request) {
         fullDescription: fullDescription || null,
         pricePerNight: pricePerNight ?? 0,
         priceRange: priceRange || null,
-        location: location || null,
+        location: finalLocation,
+        city: finalCity,
+        subLocation: finalSubLocation,
         address: address || null,
         capacity: capacity || null,
         bedrooms: bedrooms || null,

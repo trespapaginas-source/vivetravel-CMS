@@ -353,9 +353,9 @@ export default function CMSLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`sidebar-noise relative ${
+        className={`sidebar-noise fixed lg:relative ${
           sidebarCollapsed ? 'lg:w-16' : 'lg:w-64'
-        } fixed inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-slate-900 to-slate-950 dark:from-slate-950 dark:to-black text-white flex flex-col transition-transform duration-300 shrink-0 ${
+        } inset-y-0 left-0 z-50 w-64 bg-gradient-to-b from-slate-900 to-slate-950 dark:from-slate-950 dark:to-black text-white flex flex-col transition-all duration-300 shrink-0 ${
           mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
@@ -449,7 +449,7 @@ export default function CMSLayout() {
       </aside>
 
       {/* Main Content */}
-      <div className={`flex-1 flex flex-col min-w-0 ${sidebarCollapsed ? 'lg:ml-16' : 'lg:ml-64'} transition-all duration-300`}>
+      <div className="flex-1 flex flex-col min-w-0 transition-all duration-300">
         {/* Top Bar */}
         <header className="h-16 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between px-4 lg:px-6 shrink-0">
           <div className="flex items-center gap-3">

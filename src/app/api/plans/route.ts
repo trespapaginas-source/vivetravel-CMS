@@ -41,6 +41,8 @@ export async function POST(request: Request) {
       priceRange,
       duration,
       location,
+      city,
+      subLocation,
       categoryId,
       difficulty,
       schedule,
@@ -74,6 +76,10 @@ export async function POST(request: Request) {
       )
     }
 
+    const finalCity = city?.trim() || null
+    const finalSubLocation = subLocation?.trim() || null
+    const finalLocation = location || (finalCity ? (finalSubLocation ? `${finalCity}, ${finalSubLocation}` : finalCity) : null)
+
     const plan = await db.tourPlan.create({
       data: {
         name,
@@ -83,7 +89,9 @@ export async function POST(request: Request) {
         price: price ?? 0,
         priceRange: priceRange || null,
         duration: duration || null,
-        location: location || null,
+        location: finalLocation,
+        city: finalCity,
+        subLocation: finalSubLocation,
         categoryId: categoryId || null,
         difficulty: difficulty || null,
         schedule: schedule || null,

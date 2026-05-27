@@ -53,6 +53,8 @@ export async function PUT(
       pricePerNight,
       priceRange,
       location,
+      city,
+      subLocation,
       address,
       capacity,
       bedrooms,
@@ -98,12 +100,25 @@ export async function PUT(
       slug: cabinSlug,
     }
 
+    const finalCity = city !== undefined ? (city?.trim() || null) : undefined
+    const finalSubLocation = subLocation !== undefined ? (subLocation?.trim() || null) : undefined
+
     if (name !== undefined) updateData.name = name
     if (shortDescription !== undefined) updateData.shortDescription = shortDescription
     if (fullDescription !== undefined) updateData.fullDescription = fullDescription
     if (pricePerNight !== undefined) updateData.pricePerNight = pricePerNight
     if (priceRange !== undefined) updateData.priceRange = priceRange
-    if (location !== undefined) updateData.location = location
+    
+    if (city !== undefined || subLocation !== undefined) {
+      const activeCity = city !== undefined ? finalCity : existing.city
+      const activeSubLocation = subLocation !== undefined ? finalSubLocation : existing.subLocation
+      updateData.city = finalCity
+      updateData.subLocation = finalSubLocation
+      updateData.location = activeCity ? (activeSubLocation ? `${activeCity}, ${activeSubLocation}` : activeCity) : null
+    } else if (location !== undefined) {
+      updateData.location = location
+    }
+
     if (address !== undefined) updateData.address = address
     if (capacity !== undefined) updateData.capacity = capacity
     if (bedrooms !== undefined) updateData.bedrooms = bedrooms

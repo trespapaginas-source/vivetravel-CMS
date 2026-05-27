@@ -58,6 +58,8 @@ export async function PUT(
       priceRange,
       duration,
       location,
+      city,
+      subLocation,
       categoryId,
       difficulty,
       schedule,
@@ -99,13 +101,26 @@ export async function PUT(
       slug: planSlug,
     }
 
+    const finalCity = city !== undefined ? (city?.trim() || null) : undefined
+    const finalSubLocation = subLocation !== undefined ? (subLocation?.trim() || null) : undefined
+
     if (name !== undefined) updateData.name = name
     if (shortDescription !== undefined) updateData.shortDescription = shortDescription
     if (fullDescription !== undefined) updateData.fullDescription = fullDescription
     if (price !== undefined) updateData.price = price
     if (priceRange !== undefined) updateData.priceRange = priceRange
     if (duration !== undefined) updateData.duration = duration
-    if (location !== undefined) updateData.location = location
+    
+    if (city !== undefined || subLocation !== undefined) {
+      const activeCity = city !== undefined ? finalCity : existing.city
+      const activeSubLocation = subLocation !== undefined ? finalSubLocation : existing.subLocation
+      updateData.city = finalCity
+      updateData.subLocation = finalSubLocation
+      updateData.location = activeCity ? (activeSubLocation ? `${activeCity}, ${activeSubLocation}` : activeCity) : null
+    } else if (location !== undefined) {
+      updateData.location = location
+    }
+
     if (categoryId !== undefined) updateData.categoryId = categoryId || null
     if (difficulty !== undefined) updateData.difficulty = difficulty
     if (schedule !== undefined) updateData.schedule = schedule

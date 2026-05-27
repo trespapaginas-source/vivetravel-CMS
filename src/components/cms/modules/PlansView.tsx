@@ -873,7 +873,7 @@ export default function PlansView({ experienceFilter }: { experienceFilter?: Exp
           </div>
 
           {/* Desktop Table View */}
-          <div className="hidden md:block rounded-lg bg-white dark:bg-slate-900 shadow-sm overflow-hidden border border-slate-200 dark:border-slate-800">
+          <div className="hidden md:block rounded-lg bg-white dark:bg-slate-900 shadow-sm overflow-x-auto border border-slate-200 dark:border-slate-800">
             <Table>
             <TableHeader>
               <TableRow className="bg-slate-50/80 dark:bg-slate-800/80">
@@ -958,7 +958,7 @@ export default function PlansView({ experienceFilter }: { experienceFilter?: Exp
                           </div>
                         )}
                         <span
-                          className={`font-medium text-slate-900 dark:text-slate-100 cursor-pointer ${editingCell?.planId === plan.id && editingCell?.field === 'name' ? 'hidden' : ''}`}
+                          className={`font-medium text-slate-900 dark:text-slate-100 cursor-pointer max-w-[240px] truncate block ${editingCell?.planId === plan.id && editingCell?.field === 'name' ? 'hidden' : ''}`}
                           onDoubleClick={() => handleStartEdit(plan.id, 'name', plan.name)}
                           title="Doble clic para editar"
                         >{plan.name}</span>
@@ -1041,9 +1041,9 @@ export default function PlansView({ experienceFilter }: { experienceFilter?: Exp
                           className="text-sm text-slate-700 dark:text-slate-300 bg-cyan-50 dark:bg-cyan-950 border border-cyan-300 dark:border-cyan-700 rounded px-1.5 py-0.5 w-full outline-none focus:ring-2 focus:ring-cyan-500"
                         />
                       ) : (
-                        <span className="inline-flex items-center gap-1">
-                          {plan.location || <span className="text-muted-foreground">—</span>}
-                          <Pencil className="h-3 w-3 text-slate-300 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <span className="inline-flex items-center gap-1 max-w-[180px] truncate">
+                          <span className="truncate">{plan.location || <span className="text-muted-foreground">—</span>}</span>
+                          <Pencil className="h-3 w-3 text-slate-300 dark:text-slate-600 opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
                         </span>
                       )}
                     </TableCell>

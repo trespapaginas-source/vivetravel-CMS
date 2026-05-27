@@ -219,7 +219,7 @@ export default function CategoriesView() {
           </Button>
         </div>
       ) : (
-        <div className="rounded-lg bg-white dark:bg-slate-900 shadow-sm overflow-hidden border border-slate-200 dark:border-slate-800">
+        <div className="rounded-lg bg-white dark:bg-slate-900 shadow-sm overflow-x-auto border border-slate-200 dark:border-slate-800">
           <Table>
             <TableHeader>
               <TableRow className="bg-slate-50/80 dark:bg-slate-800/80">
