@@ -200,8 +200,34 @@ function GalleryEditor({ content, onChange }: { content: Record<string, unknown>
   )
 }
 
+const INTERNATIONAL_FALLBACKS: Record<string, { eyebrow: string; description: string }> = {
+  'cancún': {
+    eyebrow: 'Escapadas al Caribe mexicano',
+    description: 'Escapadas espectaculares al Caribe mexicano. Disfruta de playas de arena blanca, una vibrante vida nocturna y fascinantes tours arqueológicos.'
+  },
+  'punta cana': {
+    eyebrow: 'Playas, descanso y resorts',
+    description: 'El escape perfecto con todo incluido en República Dominicana. Relájate frente a aguas cristalinas con servicios premium y descanso total.'
+  },
+  'san andrés': {
+    eyebrow: 'Mar de siete colores',
+    description: 'Descubre el mar de los siete colores en Colombia. Un destino caribeño lleno de vida, arrecifes de coral y hermosas playas tropicales.'
+  }
+}
+
 function InternationalEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
-  const destinations = (content.destinations as Record<string, string>[]) || []
+  const rawDestinations = (content.destinations as Record<string, string>[]) || []
+  
+  const destinations = rawDestinations.map(dest => {
+    const nameLower = (dest.name || '').toLowerCase()
+    const fallback = INTERNATIONAL_FALLBACKS[nameLower]
+    return {
+      ...dest,
+      eyebrow: dest.eyebrow || (fallback ? fallback.eyebrow : ''),
+      description: dest.description || (fallback ? fallback.description : '')
+    }
+  })
+
   return (
     <div className="space-y-4">
       <TextInput label="Título" field="title" content={content} onChange={onChange} />
@@ -224,6 +250,7 @@ function InternationalEditor({ content, onChange }: { content: Record<string, un
     </div>
   )
 }
+
 
 function TeamEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
   return (
