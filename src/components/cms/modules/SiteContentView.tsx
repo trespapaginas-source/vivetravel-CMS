@@ -20,14 +20,14 @@ import {
   Save, Loader2, Plus, Trash2, ArrowUp, ArrowDown,
   Sparkles, Map, Image as ImageIconLucide, Users, Phone,
   Shield, Settings, Megaphone, Search, RotateCcw, Code, Clock,
-  ExternalLink, Compass, Globe, MessageSquare,
+  ExternalLink, Compass, Globe, MessageSquare, Menu
 } from 'lucide-react'
 import { toast } from 'sonner'
 
 // Define section keys and labels with icons
 const SECTIONS = [
   { key: 'hero', label: 'Hero', icon: <Sparkles className="h-4 w-4" />, color: 'emerald', preview: '🏠' },
-  { key: 'influencer', label: 'Influencer', icon: <Users className="h-4 w-4" />, color: 'violet', preview: '👤' },
+  { key: 'promotions', label: 'Promociones', icon: <Megaphone className="h-4 w-4" />, color: 'orange', preview: '📣' },
   { key: 'featuredPlans', label: 'Planes Destacados', icon: <Map className="h-4 w-4" />, color: 'teal', preview: '⭐' },
   { key: 'gallery', label: 'Destinos Nacionales', icon: <Compass className="h-4 w-4" />, color: 'teal', preview: '🗺️' },
   { key: 'international', label: 'Destinos Internacionales', icon: <Globe className="h-4 w-4" />, color: 'indigo', preview: '🌎' },
@@ -38,6 +38,10 @@ const SECTIONS = [
   { key: 'team', label: 'Nuestro Equipo', icon: <Users className="h-4 w-4" />, color: 'violet', preview: '👥' },
   { key: 'contact', label: 'Contacto', icon: <Phone className="h-4 w-4" />, color: 'cyan', preview: '📞' },
   { key: 'policies', label: 'Políticas', icon: <Shield className="h-4 w-4" />, color: 'slate', preview: '📋' },
+  { key: 'navbar', label: 'Menú Navegación', icon: <Menu className="h-4 w-4" />, color: 'indigo', preview: '🧭' },
+  { key: 'footer', label: 'Footer', icon: <Settings className="h-4 w-4" />, color: 'slate', preview: '👣' },
+  { key: 'plansList', label: 'Lista de Planes', icon: <Map className="h-4 w-4" />, color: 'teal', preview: '🗺️' },
+  { key: 'cabinsList', label: 'Lista de Cabañas', icon: <Compass className="h-4 w-4" />, color: 'emerald', preview: '🏠' },
   { key: 'homeConfig', label: 'Config Inicio', icon: <Settings className="h-4 w-4" />, color: 'sky', preview: '⚙️' },
   { key: 'campaign', label: 'Campaña', icon: <Megaphone className="h-4 w-4" />, color: 'orange', preview: '📣' },
   { key: 'seo', label: 'SEO', icon: <Search className="h-4 w-4" />, color: 'indigo', preview: '🔍' },
@@ -271,16 +275,146 @@ function TestimonialsEditor({ content, onChange }: { content: Record<string, unk
   )
 }
 
-function InfluencerEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
+function PromotionsEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
+  const banners = (content.banners as Record<string, unknown>[]) || []
+  const valueCards = (content.valueCards as Record<string, unknown>[]) || []
+
+  const handleBannersChange = (newBanners: Record<string, string>[]) => {
+    const mapped = newBanners.map((b, i) => ({
+      id: Number(b.id) || i + 1,
+      url: b.url || '',
+      alt: b.alt || '',
+    }))
+    onChange({ ...content, banners: mapped })
+  }
+
+  const handleValueCardsChange = (newValueCards: Record<string, string>[]) => {
+    const mapped = newValueCards.map((vc, i) => ({
+      id: Number(vc.id) || i + 1,
+      title: vc.title || '',
+      description: vc.description || '',
+    }))
+    onChange({ ...content, valueCards: mapped })
+  }
+
   return (
     <div className="space-y-4">
-      <TextInput label="Nombre del Influencer" field="name" content={content} onChange={onChange} />
-      <TextInput label="Rol / Cargo" field="role" content={content} onChange={onChange} />
-      <TextareaInput label="Frase / Testimonio" field="quote" content={content} onChange={onChange} />
-      <TextInput label="URL de la Imagen" field="imageUrl" content={content} onChange={onChange} />
-      <TextInput label="Instagram URL" field="instagramUrl" content={content} onChange={onChange} />
-      <TextInput label="Etiqueta del Botón Instagram" field="instagramLabel" content={content} onChange={onChange} />
-      <TextInput label="Etiqueta de Estadísticas" field="statsLabel" content={content} onChange={onChange} />
+      <TextInput label="Título de Sección" field="sectionTitle" content={content} onChange={onChange} />
+      
+      <div className="space-y-2">
+        <Label className="text-sm font-medium">Banners Promocionales</Label>
+        <DynamicObjectArray
+          items={banners.map(b => ({ id: String(b.id || ''), url: String(b.url || ''), alt: String(b.alt || '') }))}
+          onChange={handleBannersChange}
+          fields={[
+            { key: 'id', label: 'ID (Número)' },
+            { key: 'url', label: 'URL de la Imagen' },
+            { key: 'alt', label: 'Texto Alternativo (Alt)' },
+          ]}
+          addLabel="Agregar banner"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label className="text-sm font-medium">Tarjetas de Valor / Beneficios</Label>
+        <DynamicObjectArray
+          items={valueCards.map(vc => ({ id: String(vc.id || ''), title: String(vc.title || ''), description: String(vc.description || '') }))}
+          onChange={handleValueCardsChange}
+          fields={[
+            { key: 'id', label: 'ID (Número)' },
+            { key: 'title', label: 'Título' },
+            { key: 'description', label: 'Descripción', type: 'textarea' },
+          ]}
+          addLabel="Agregar tarjeta"
+        />
+      </div>
+    </div>
+  )
+}
+
+function NavbarEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
+  const navItems = (content.navItems as Record<string, string>[]) || []
+
+  return (
+    <div className="space-y-4">
+      <TextInput label="Nombre de Marca" field="brandName" content={content} onChange={onChange} />
+      <TextInput label="Subtítulo de Marca" field="brandSub" content={content} onChange={onChange} />
+      <TextInput label="Texto Botón Reserva (Desktop)" field="ctaButton" content={content} onChange={onChange} />
+      <TextInput label="Texto Botón Reserva (Móvil)" field="ctaButtonMobile" content={content} onChange={onChange} />
+
+      <div className="space-y-2">
+        <Label className="text-sm font-medium">Enlaces de Navegación</Label>
+        <DynamicObjectArray
+          items={navItems}
+          onChange={(items) => onChange({ ...content, navItems: items })}
+          fields={[
+            { key: 'key', label: 'Key (ej. plans, cabins, team, contact)' },
+            { key: 'label', label: 'Etiqueta (Texto visible)' },
+          ]}
+          addLabel="Agregar enlace"
+        />
+      </div>
+    </div>
+  )
+}
+
+function FooterEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <TextInput label="Nombre de Marca" field="brandName" content={content} onChange={onChange} />
+        <TextInput label="Subtítulo de Marca" field="brandSub" content={content} onChange={onChange} />
+      </div>
+      <TextareaInput label="Descripción de Marca" field="description" content={content} onChange={onChange} />
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <TextInput label="URL Instagram" field="instagramUrl" content={content} onChange={onChange} />
+        <TextInput label="URL Facebook" field="facebookUrl" content={content} onChange={onChange} />
+        <TextInput label="URL WhatsApp" field="whatsappUrl" content={content} onChange={onChange} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <TextInput label="Título Sección Explorar" field="exploreTitle" content={content} onChange={onChange} />
+        <TextInput label="Título Sección Contacto" field="contactTitle" content={content} onChange={onChange} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <TextInput label="Teléfono" field="phone" content={content} onChange={onChange} />
+        <TextInput label="Email" field="email" content={content} onChange={onChange} />
+        <TextInput label="Ubicación" field="location" content={content} onChange={onChange} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <TextInput label="Título Soporte/Ayuda" field="helpTitle" content={content} onChange={onChange} />
+        <TextInput label="Texto Botón Chat" field="chatButton" content={content} onChange={onChange} />
+      </div>
+      <TextareaInput label="Descripción Soporte/Ayuda" field="helpDescription" content={content} onChange={onChange} />
+
+      <TextInput label="Copyright" field="copyright" content={content} onChange={onChange} />
+      <TextInput label="Hecho con / Firma" field="madeWith" content={content} onChange={onChange} />
+    </div>
+  )
+}
+
+function PlansListEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
+  return (
+    <div className="space-y-4">
+      <TextInput label="Título de Página" field="title" content={content} onChange={onChange} />
+      <TextInput label="Subtítulo de Página" field="subtitle" content={content} onChange={onChange} />
+      <TextInput label="Mensaje de Lista Vacía" field="emptyState" content={content} onChange={onChange} />
+      <TextInput label="Texto Ver Todo" field="viewAll" content={content} onChange={onChange} />
+    </div>
+  )
+}
+
+function CabinsListEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
+  return (
+    <div className="space-y-4">
+      <TextInput label="Título de Página" field="title" content={content} onChange={onChange} />
+      <TextInput label="Subtítulo de Página" field="subtitle" content={content} onChange={onChange} />
+      <TextInput label="Título de Sección Vacía" field="emptyTitle" content={content} onChange={onChange} />
+      <TextareaInput label="Descripción de Sección Vacía" field="emptyDescription" content={content} onChange={onChange} />
+      <TextInput label="Texto Botón Contactar" field="contactButton" content={content} onChange={onChange} />
     </div>
   )
 }
@@ -458,7 +592,7 @@ function PoliciesEditor({ content, onChange }: { content: Record<string, unknown
 function HomeConfigEditor({ content, onChange }: { content: Record<string, unknown>; onChange: (c: Record<string, unknown>) => void }) {
   const order = (content.order as string[]) || []
   const active = (content.active as Record<string, boolean>) || {}
-  const sectionNames = ['hero', 'influencer', 'plans', 'gallery', 'international', 'stats', 'groups', 'custom', 'testimonials', 'team']
+  const sectionNames = ['hero', 'promotions', 'plans', 'gallery', 'international', 'stats', 'groups', 'custom', 'testimonials', 'team']
 
   return (
     <div className="space-y-6">
@@ -567,6 +701,25 @@ function TextareaInput({ label, field, content, onChange }: { label: string; fie
   )
 }
 
+const DEFAULT_CONTENT: Record<string, Record<string, unknown>> = {
+  hero: { brandLabel: "Vive Travel", title: "Viaja por el", titleHighlight: "mundo", subtitle: "Experiencias únicas diseñadas y respaldadas por Luisito el viajero y su equipo.", ctaPlans: "Ver planes turísticos", ctaCabins: "Personalizar mi viaje" },
+  featuredPlans: { title: "Experiencias destacadas", subtitle: "Experiencias que conectan Colombia", priceLabel: "Desde", viewMore: "Ver más", viewAll: "Ver todas las experiencias" },
+  carousel: { title: "Nuestros viajeros", subtitle: "Ya vivieron la experiencia", brandHover: "Vive Travel", stats: [{ value: "500+", label: "Viajeros felices" }, { value: "50+", label: "Experiencias" }] },
+  testimonials: { title: "Lo que dicen nuestros viajeros", subtitle: "Historias reales" },
+  groupTrips: { label: "Viajes grupales", title: "Viaja en grupo y", titleHighlight: "paga menos", description: "Organiza tu viaje con amigos", ctaQuote: "Solicitar cotización", ctaPlans: "Ver experiencias", benefits: [], stats: [] },
+  customTrips: { label: "Tu aventura, tu estilo", title: "Viajes", titleHighlight: "personalizados", description: "Nosotros te ayudamos", benefits: [], ctaTitle: "", ctaDescription: "", ctaContact: "", ctaPlans: "" },
+  contact: { badge: "Contáctanos", title: "¿Listo para tu", titleHighlight: "próxima aventura", subtitle: "", formTitle: "", whatsapp: "", email: "", location: "", hours: "", instagramUrl: "", facebookUrl: "", whatsappUrl: "", socialLabel: "", chatTitle: "", chatDescription: "", chatButton: "" },
+  policies: { badge: "Políticas", title: "Políticas", titleHighlight: "", subtitle: "", bookingTitle: "", bookingSubtitle: "", cancellationTitle: "", cancellationSubtitle: "", footerText: "", lastUpdate: "", bookingPolicies: [], cancellationPolicies: [] },
+  homeConfig: { order: ["hero", "promotions", "plans", "gallery", "international", "stats", "groups", "custom", "testimonials", "team"], active: { hero: true, promotions: true, plans: true, gallery: true, international: true, stats: true, groups: true, custom: true, testimonials: true, team: true } },
+  campaign: { active: false, bannerText: "", ctaText: "", ctaUrl: "" },
+  seo: { metaTitle: "", metaDescription: "", openGraphImage: "" },
+  promotions: { sectionTitle: "Módulo Promocional", banners: [], valueCards: [] },
+  navbar: { brandName: "Vive Travel", brandSub: "Colombia", navItems: [], ctaButton: "Reservar", ctaButtonMobile: "Reservar ahora" },
+  footer: { brandName: "Vive Travel", brandSub: "Colombia", description: "", instagramUrl: "", facebookUrl: "", whatsappUrl: "", exploreTitle: "", contactTitle: "", phone: "", email: "", location: "", helpTitle: "", helpDescription: "", chatButton: "", copyright: "", madeWith: "" },
+  plansList: { title: "Experiencias y viajes", subtitle: "", emptyState: "", viewAll: "" },
+  cabinsList: { title: "Alojamientos", subtitle: "", emptyTitle: "", emptyDescription: "", contactButton: "" }
+}
+
 // Main component
 export default function SiteContentView() {
   const [sections, setSections] = useState<SiteSection[]>([])
@@ -586,10 +739,14 @@ export default function SiteContentView() {
           const sectionsData: SiteSection[] = data.sections || []
           setSections(sectionsData)
 
-          // Initialize edited content
+          // Initialize edited content with fallbacks
           const contentMap: Record<string, Record<string, unknown>> = {}
-          sectionsData.forEach((s) => {
-            contentMap[s.sectionKey] = { ...(s.content as Record<string, unknown>) }
+          SECTIONS.forEach((section) => {
+            const dbSec = sectionsData.find((s) => s.sectionKey === section.key)
+            contentMap[section.key] = {
+              ...(DEFAULT_CONTENT[section.key] || {}),
+              ...(dbSec ? (dbSec.content as Record<string, unknown>) : {})
+            }
           })
           setEditedContent(contentMap)
           setOriginalContent(JSON.parse(JSON.stringify(contentMap)))
@@ -665,7 +822,7 @@ export default function SiteContentView() {
     const content = currentContent
     switch (activeSection) {
       case 'hero': return <HeroEditor content={content} onChange={handleContentChange} />
-      case 'influencer': return <InfluencerEditor content={content} onChange={handleContentChange} />
+      case 'promotions': return <PromotionsEditor content={content} onChange={handleContentChange} />
       case 'featuredPlans': return <FeaturedPlansEditor content={content} onChange={handleContentChange} />
       case 'gallery': return <GalleryEditor content={content} onChange={handleContentChange} />
       case 'international': return <InternationalEditor content={content} onChange={handleContentChange} />
@@ -676,6 +833,10 @@ export default function SiteContentView() {
       case 'team': return <TeamEditor content={content} onChange={handleContentChange} />
       case 'contact': return <ContactEditor content={content} onChange={handleContentChange} />
       case 'policies': return <PoliciesEditor content={content} onChange={handleContentChange} />
+      case 'navbar': return <NavbarEditor content={content} onChange={handleContentChange} />
+      case 'footer': return <FooterEditor content={content} onChange={handleContentChange} />
+      case 'plansList': return <PlansListEditor content={content} onChange={handleContentChange} />
+      case 'cabinsList': return <CabinsListEditor content={content} onChange={handleContentChange} />
       case 'homeConfig': return <HomeConfigEditor content={content} onChange={handleContentChange} />
       case 'campaign': return <CampaignEditor content={content} onChange={handleContentChange} />
       case 'seo': return <SeoEditor content={content} onChange={handleContentChange} />
