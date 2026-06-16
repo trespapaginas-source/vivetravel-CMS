@@ -145,7 +145,7 @@ export default function PlanForm() {
   const categoryIdValue = watch('categoryId')
   const difficultyValue = watch('difficulty')
   const selectedCategory = categories.find((cat) => cat.id === categoryIdValue)
-  const isGrupalCategory = selectedCategory?.name?.toLowerCase() === 'grupal'
+  const isGrupalCategory = selectedCategory?.name?.toLowerCase().includes('grupal')
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -245,8 +245,8 @@ export default function PlanForm() {
         subLocation: data.subLocation?.trim() || null,
         categoryId: data.categoryId || null,
         difficulty: data.difficulty || null,
-        schedule: data.schedule || null,
-        meetingPoint: data.meetingPoint || null,
+        schedule: isGrupalCategory ? (data.schedule || null) : null,
+        meetingPoint: isGrupalCategory ? (data.meetingPoint || null) : null,
         maxGuests: isGrupalCategory ? (data.maxGuests ?? null) : null,
         published: data.published,
         sortOrder: data.sortOrder,
@@ -491,21 +491,40 @@ export default function PlanForm() {
                       </SelectContent>
                     </Select>
                   </div>
-                  {/* Campos Omitidos (Horario y Punto de Encuentro) */}
                   {isGrupalCategory && (
-                    <div className="space-y-2">
-                      <Label htmlFor="maxGuests">Capacidad Máxima / Cupos</Label>
-                      <Input
-                        id="maxGuests"
-                        type="number"
-                        {...register('maxGuests', { valueAsNumber: true })}
-                        className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
-                        placeholder="Ej: 30"
-                      />
-                      {errors.maxGuests && (
-                        <p className="text-xs text-destructive">{errors.maxGuests.message}</p>
-                      )}
-                    </div>
+                    <>
+                      <div className="space-y-2">
+                        <Label htmlFor="maxGuests">Capacidad Máxima / Cupos</Label>
+                        <Input
+                          id="maxGuests"
+                          type="number"
+                          {...register('maxGuests', { valueAsNumber: true })}
+                          className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
+                          placeholder="Ej: 30"
+                        />
+                        {errors.maxGuests && (
+                          <p className="text-xs text-destructive">{errors.maxGuests.message}</p>
+                        )}
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="schedule">Horario de Salida</Label>
+                        <Input
+                          id="schedule"
+                          {...register('schedule')}
+                          className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
+                          placeholder="Ej: Salidas grupales los días 15 de cada mes"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="meetingPoint">Punto de Encuentro</Label>
+                        <Input
+                          id="meetingPoint"
+                          {...register('meetingPoint')}
+                          className="focus-visible:ring-cyan-500 focus-visible:ring-2 focus-visible:shadow-sm focus-visible:shadow-cyan-500/10 transition-all duration-200"
+                          placeholder="Ej: Aeropuerto Internacional El Dorado, Bogotá"
+                        />
+                      </div>
+                    </>
                   )}
                   <div className="space-y-2">
                     <Label htmlFor="sortOrder">Orden</Label>
