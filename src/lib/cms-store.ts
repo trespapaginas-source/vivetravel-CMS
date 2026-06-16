@@ -8,6 +8,7 @@ export type CMSView =
   | 'plans-pasadias'
   | 'plans-nacionales'
   | 'plans-internacionales'
+  | 'plans-circuitos'
   | 'plans-grupales'
   | 'plans-tours'
   | 'plan-form'

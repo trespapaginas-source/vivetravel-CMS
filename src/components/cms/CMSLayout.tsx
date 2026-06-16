@@ -89,9 +89,10 @@ const navGroups: NavGroup[] = [
       { view: 'plans-pasadias', label: 'Pasadías', icon: <Map className="h-4 w-4" />, shortcut: 'Ctrl+2' },
       { view: 'plans-nacionales', label: 'Destinos Nacionales', icon: <Compass className="h-4 w-4" />, shortcut: 'Ctrl+3' },
       { view: 'plans-internacionales', label: 'Destinos Internacionales', icon: <Globe className="h-4 w-4" />, shortcut: 'Ctrl+4' },
-      { view: 'plans-grupales', label: 'Viajes Grupales', icon: <Users className="h-4 w-4" />, shortcut: 'Ctrl+5' },
-      { view: 'plans-tours', label: 'Tours', icon: <Compass className="h-4 w-4" />, shortcut: 'Ctrl+6' },
-      { view: 'cabins', label: 'Cabañas', icon: <Home className="h-4 w-4" />, shortcut: 'Ctrl+7' },
+      { view: 'plans-circuitos', label: 'Circuitos', icon: <Compass className="h-4 w-4" />, shortcut: 'Ctrl+5' },
+      { view: 'plans-grupales', label: 'Viajes Grupales', icon: <Users className="h-4 w-4" />, shortcut: 'Ctrl+6' },
+      { view: 'plans-tours', label: 'Actividades', icon: <Compass className="h-4 w-4" />, shortcut: 'Ctrl+7' },
+      { view: 'cabins', label: 'Cabañas', icon: <Home className="h-4 w-4" />, shortcut: 'Ctrl+8' },
     ],
   },
   {
@@ -276,6 +277,7 @@ export default function CMSLayout() {
         case 'plans-pasadias': return <PlansView experienceFilter="pasadias" />
         case 'plans-nacionales': return <PlansView experienceFilter="nacionales" />
         case 'plans-internacionales': return <PlansView experienceFilter="internacionales" />
+        case 'plans-circuitos': return <PlansView experienceFilter="circuitos" />
         case 'plans-grupales': return <PlansView experienceFilter="grupales" />
         case 'plans-tours': return <PlansView experienceFilter="tours" />
         case 'plan-form': return <PlanForm />
@@ -307,8 +309,9 @@ export default function CMSLayout() {
       'plans-pasadias': 'Pasadías',
       'plans-nacionales': 'Destinos Nacionales',
       'plans-internacionales': 'Destinos Internacionales',
+      'plans-circuitos': 'Circuitos',
       'plans-grupales': 'Viajes Grupales',
-      'plans-tours': 'Tours',
+      'plans-tours': 'Actividades',
     }
 
     if (currentView === 'plan-form') {

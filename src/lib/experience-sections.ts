@@ -1,5 +1,26 @@
 export const EXPERIENCE_SECTIONS = [
   {
+    id: "internacionales",
+    label: "Planes Internacionales",
+    title: "Planes Internacionales",
+    subtitle:
+      "Escapadas fuera de Colombia con enfoque en descanso, playa y experiencias memorables.",
+  },
+  {
+    id: "nacionales",
+    label: "Planes Nacionales",
+    title: "Planes Nacionales",
+    subtitle:
+      "Viajes de varios días por Colombia, organizados para descubrir nuevos destinos.",
+  },
+  {
+    id: "circuitos",
+    label: "Circuitos",
+    title: "Circuitos",
+    subtitle:
+      "Grandes recorridos y circuitos turísticos organizados para vivir múltiples destinos.",
+  },
+  {
     id: "pasadias",
     label: "Pasadías",
     title: "Pasadías",
@@ -7,30 +28,16 @@ export const EXPERIENCE_SECTIONS = [
       "Experiencias de un día para disfrutar playas, naturaleza, aventura y cultura.",
   },
   {
-    id: "nacionales",
-    label: "Destinos nacionales",
-    title: "Destinos nacionales",
-    subtitle:
-      "Viajes de varios días por Colombia, organizados para descubrir nuevos destinos.",
-  },
-  {
-    id: "internacionales",
-    label: "Internacionales",
-    title: "Internacionales",
-    subtitle:
-      "Escapadas fuera de Colombia con enfoque en descanso, playa y experiencias memorables.",
-  },
-  {
     id: "grupales",
-    label: "Grupales",
-    title: "Grupales",
+    label: "Viajes Grupales",
+    title: "Viajes Grupales",
     subtitle:
       "Viajes de un día para grupos, equipos, familias y comunidades.",
   },
   {
     id: "tours",
-    label: "Tours",
-    title: "Tours",
+    label: "Actividades",
+    title: "Actividades",
     subtitle:
       "Experiencias y actividades cortas para complementar tu estadía en la ciudad.",
   },
@@ -38,7 +45,7 @@ export const EXPERIENCE_SECTIONS = [
 
 export type ExperienceSectionId = (typeof EXPERIENCE_SECTIONS)[number]["id"];
 
-export const DEFAULT_EXPERIENCE_SECTION: ExperienceSectionId = "pasadias";
+export const DEFAULT_EXPERIENCE_SECTION: ExperienceSectionId = "internacionales";
 
 export function getExperienceSection(id: string | null | undefined) {
   return (
@@ -67,6 +74,10 @@ export function getPlanExperienceSection(plan: {
     .join(" ")
     .toLowerCase();
 
+  if (categoryStr.includes("circuito") || searchable.includes("circuito")) {
+    return "circuitos";
+  }
+
   if (categoryStr.includes("internacional") || searchable.includes("internacional") || searchable.includes("cancún") || searchable.includes("cancun") || searchable.includes("punta cana") || searchable.includes("san andrés")) {
     return "internacionales";
   }
@@ -85,3 +96,4 @@ export function getPlanExperienceSection(plan: {
 
   return "pasadias";
 }
+

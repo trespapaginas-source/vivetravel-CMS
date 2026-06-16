@@ -146,7 +146,8 @@ export default function PlansView({ experienceFilter }: { experienceFilter?: Exp
     nacionales: 'Destinos Nacionales',
     internacionales: 'Destinos Internacionales',
     grupales: 'Viajes Grupales',
-    tours: 'Tours',
+    tours: 'Actividades',
+    circuitos: 'Circuitos',
   }
   const viewTitle = experienceFilter ? sectionLabels[experienceFilter] : 'Planes Turísticos'
 
